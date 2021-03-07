@@ -1,11 +1,18 @@
+apply plugin: 'groovy'
+
 repositories {
-  google()
-  jcenter()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url 'http://maven.aliyun.com/repository/google' }
+    maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    maven { url 'https://jitpack.io' }
+    jcenter()
+    mavenCentral()
+    google()
 }
 
 dependencies {
-  implementation "com.android.tools.build:gradle:4.0.0-beta04"
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:4.1.1'
 }
-
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"

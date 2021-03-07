@@ -1,47 +1,95 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-  ext.kotlin_version = '1.4.10'
-  repositories {
-    google()
-    jcenter()
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:4.1.1'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    ext.kotlin_version = '1.4.10'
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url 'https://jitpack.io' }
+        jcenter()
+        mavenCentral()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
-    // NOTE: Do not place your application dependencies here; they belong
-    // in the individual module build.gradle files
-  }
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
 }
 
 allprojects {
-  repositories {
-    google()
-    jcenter()
-  }
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url 'https://jitpack.io' }
+        jcenter()
+        mavenCentral()
+        google()
+    }
 }
 
 task clean(type: Delete) {
-  delete rootProject.buildDir
+    delete rootProject.buildDir
 }
 
 task bumpVersion() {
-  doLast {
-    def versionPropsFile = file('version.properties')
-    def versionProps = new Properties()
-    versionProps.load(new FileInputStream(versionPropsFile))
-    def codeBumped = versionProps['VERSION_CODE'].toInteger() + 1
-    versionProps['VERSION_CODE'] = codeBumped.toString()
-    versionProps.store(versionPropsFile.newWriter(), null)
-  }
+    doLast {
+        def versionPropsFile = file('version.properties')
+        def versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        def codeBumped = versionProps['VERSION_CODE'].toInteger() + 1
+        versionProps['VERSION_CODE'] = codeBumped.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+    }
 }
 
 task bumpVersionAndNotify(dependsOn: bumpVersion) {
-  doLast {
-    println "升级完成"
-  }
+    doLast {
+        println "升级完成"
+    }
 }
 
+/**
+ * 配置阶段
+ * 12
+ *
+ * 执行阶段
+ * 75436
+ */
+task testTask {
+    println 1
+    // delete是配置阶段添加到待删除列表中,执行阶段正式删除
+    delete rootProject.buildDir
+    println 2
+
+    doLast {
+        println 3
+    }
+
+    doFirst {
+        println 4
+    }
+
+    doFirst {
+        println 5
+    }
+
+    doLast {
+        println 6
+    }
+
+    doFirst {
+        println 7
+    }
+}
+
+
 afterEvaluate {
-  // 插入第二三阶段之间的代码
+    // 插入第二三阶段之间的代码
+    println "配置阶段执行完成"
 }

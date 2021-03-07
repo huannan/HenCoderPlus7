@@ -4,3 +4,4 @@ include ':app'
 rootProject.name = "GradleBuildScript"
 
 // 插入一二阶段之间的代码
+println "初始化阶段执行完成"

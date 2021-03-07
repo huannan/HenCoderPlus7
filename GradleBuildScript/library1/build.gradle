@@ -35,3 +35,9 @@ dependencies {
 
   implementation project(":library2")
 }
+
+
+afterEvaluate {
+  // 插入第二三阶段之间的代码
+  println "配置阶段执行完成"
+}
