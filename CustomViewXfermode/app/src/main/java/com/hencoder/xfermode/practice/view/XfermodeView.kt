@@ -13,7 +13,7 @@ private val XFETMODE = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
 private val XFETMODE_RECTF = RectF(IMAGE_PADDING, IMAGE_PADDING, IMAGE_PADDING + IMAGE_WIDTH, IMAGE_PADDING + IMAGE_WIDTH)
 
 /**
- * Xfermode只对有效区域生效
+ * Xfermode只对有效区域生效，包括Bitmap的透明区域
  */
 class XfermodeView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -37,18 +37,18 @@ class XfermodeView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         // 开启离屏缓冲
+        val count = canvas.saveLayer(IMAGE_PADDING, IMAGE_PADDING, IMAGE_PADDING + 3 * RADIUS, IMAGE_PADDING + 3 * RADIUS, null)
         // val count = canvas.saveLayer(XFETMODE_RECTF, null)
-        val count = canvas.saveLayer(IMAGE_PADDING, IMAGE_PADDING + RADIUS, IMAGE_PADDING + 2 * RADIUS, IMAGE_PADDING + 3 * RADIUS, null)
 
-        // canvas.drawBitmap(destBitmap, 0F, 0F, paint)
         canvas.drawCircle(IMAGE_PADDING + 2 * RADIUS, IMAGE_PADDING + RADIUS, RADIUS, paint)
+        // canvas.drawBitmap(destBitmap, 0F, 0F, paint)
 
         // 应用Xfermode
         paint.xfermode = XFETMODE
 
-        // canvas.drawBitmap(srcBitmap, 0F, 0F, paint)
         paint.color = Color.parseColor("#2196F3")
         canvas.drawRect(IMAGE_PADDING, IMAGE_PADDING + RADIUS, IMAGE_PADDING + 2 * RADIUS, IMAGE_PADDING + 3 * RADIUS, paint)
+        // canvas.drawBitmap(srcBitmap, 0F, 0F, paint)
 
         // 恢复默认
         paint.xfermode = null
