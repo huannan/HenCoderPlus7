@@ -5,7 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import com.hencoder.xfermode.R
-import com.hencoder.xfermode.practice.dp
+import com.hencoder.xfermode.dp
 
 private val IMAGE_WIDTH = 200F.dp
 private val IMAGE_PADDING = 30F.dp

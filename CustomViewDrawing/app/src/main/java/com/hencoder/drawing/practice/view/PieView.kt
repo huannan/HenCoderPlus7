@@ -1,12 +1,14 @@
 package com.hencoder.drawing.practice.view
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import com.hencoder.drawing.practice.dp
-import com.hencoder.drawing.practice.half
-import com.hencoder.drawing.practice.radians
+import com.hencoder.drawing.dp
+import com.hencoder.drawing.half
+import com.hencoder.drawing.radians
 import kotlin.math.cos
 import kotlin.math.sin
 

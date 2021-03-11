@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import com.hencoder.xfermode.practice.dp
+import com.hencoder.xfermode.dp
 
 private val RADIUS = 50F.dp
 private val IMAGE_WIDTH = 200F.dp
