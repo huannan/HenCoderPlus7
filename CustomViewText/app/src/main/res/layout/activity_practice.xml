@@ -7,6 +7,11 @@
     <com.hencoder.text.practice.view.SportView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.hencoder.text.practice.view.MultilineTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="visible" />
 
 </LinearLayout>

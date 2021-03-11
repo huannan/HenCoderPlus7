@@ -13,6 +13,15 @@ val Float.dp: Float
 val Int.dp: Float
     get() = this.toFloat().dp
 
+val Float.sp: Float
+    get() = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            this,
+            Resources.getSystem().displayMetrics)
+
+val Int.sp: Float
+    get() = this.toFloat().sp
+
 val Float.half: Float
     get() = this / 2F
 

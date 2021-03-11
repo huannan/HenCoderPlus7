@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.text.TextPaint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import com.hencoder.text.R
@@ -33,6 +34,8 @@ private val HIGHLIGHT_COLOR = "#FF4081".color
  */
 private val RING_WIDTH = 20.dp
 
+private const val TAG = "SportView"
+
 class SportView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
@@ -52,6 +55,7 @@ class SportView @JvmOverloads constructor(
         typeface = ResourcesCompat.getFont(context, R.font.font)
     }
     private val textBounds = Rect()
+    val text = "abab"
 
     override fun onDraw(canvas: Canvas) {
         // 绘制背景
@@ -66,14 +70,32 @@ class SportView @JvmOverloads constructor(
         canvas.drawLine(width.half, 0F, width.half, height.toFloat(), linePaint)
         canvas.drawLine(0F, height.half, width.toFloat(), height.half, linePaint)
 
-        // 绘制文字
-        val text = "abab"
+        // 绘制文字-水平垂直严格居中-适用于静态文字
         textPaint.textSize = 100.dp
         // 水平居中
         textPaint.textAlign = Paint.Align.CENTER
         // 垂直居中
         textPaint.getTextBounds(text, 0, text.length, textBounds)
-        canvas.drawText(text, width.half, height.half + (textBounds.bottom - textBounds.top).half, textPaint)
+        Log.d(TAG, "onDraw: getTextBounds bottom=${textBounds.bottom}, top=${textBounds.top}")
+        canvas.drawText(text, width.half, height.half - (textBounds.bottom + textBounds.top).half, textPaint)
+
+        // 绘制文字-水平垂直严格居中-适用于动态文字
+        textPaint.textSize = 100.dp
+        // 水平居中
+        textPaint.textAlign = Paint.Align.CENTER
+        // 垂直居中
+        val fontMetrics = textPaint.fontMetrics
+        Log.d(TAG, "onDraw: getFontMetrics descent=${fontMetrics.descent}, top=${fontMetrics.ascent}")
+        canvas.drawText(text, width.half, height.half - (fontMetrics.descent + fontMetrics.ascent).half, textPaint)
+
+        // 绘制文字-文字贴边(对齐)
+        textPaint.textSize = 150.dp
+        textPaint.textAlign = Paint.Align.LEFT
+        textPaint.getTextBounds(text, 0, text.length, textBounds)
+        // 一般段落阅读型的不用太贴边,推荐用fontMetrics.top/fontMetrics.ascent
+        canvas.drawText(text, -textBounds.left.toFloat(), -fontMetrics.top, textPaint)
+        // 如果需要严格贴边的话,就用textBounds.top
+        // canvas.drawText(text, -textBounds.left.toFloat(), -textBounds.top.toFloat(), textPaint)
     }
 
 }
