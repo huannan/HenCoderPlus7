@@ -60,8 +60,6 @@ class ProvinceView(context: Context?, attrs: AttributeSet?) : View(context, attr
     }
 
   override fun onDraw(canvas: Canvas) {
-    super.onDraw(canvas)
-
     canvas.drawText(province, width / 2f, height / 2f, paint)
   }
 }

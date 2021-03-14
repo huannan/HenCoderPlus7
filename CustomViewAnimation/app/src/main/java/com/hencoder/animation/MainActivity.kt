@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
+    // ViewPropertyAnimator
     /*view.animate() // radius
       .translationX(200.dp) // setTranslationX(10) setTranslationX(20) setTranslationX(40)
       .translationY(100.dp)
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
       .rotation(90f)
       .setStartDelay(1000)*/
 
+    // ObjectAnimator,可以实现自定义属性动画
     /*val animator = ObjectAnimator.ofFloat(view, "radius", 150.dp)
     animator.startDelay = 1000
     animator.start()*/
@@ -38,10 +40,12 @@ class MainActivity : AppCompatActivity() {
     topFlipAnimator.startDelay = 200
     topFlipAnimator.duration = 1000
 
+    // AnimatorSet来调度多个Animator
     val animatorSet = AnimatorSet()
     animatorSet.playSequentially(bottomFlipAnimator, flipRotationAnimator, topFlipAnimator)
     animatorSet.start()*/
 
+    // 通过PropertyValuesHolder,然后创建一个ObjectAnimator,多个属性应用于同一个对象
     /*val bottomFlipHolder = PropertyValuesHolder.ofFloat("bottomFlip", 60f)
     val flipRotationHolder = PropertyValuesHolder.ofFloat("flipRotation", 270f)
     val topFlipHolder = PropertyValuesHolder.ofFloat("topFlip", - 60f)
@@ -50,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     holderAnimator.duration = 2000
     holderAnimator.start()*/
 
+    // 配合使⽤ Keyframe ，对⼀个属性分多个段
     /*val length = 200.dp
     val keyframe1 = Keyframe.ofFloat(0f, 0f)
     val keyframe2 = Keyframe.ofFloat(0.2f, 1.5f * length)
@@ -61,16 +66,19 @@ class MainActivity : AppCompatActivity() {
     animator.duration = 2000
     animator.start()*/
 
+    // 自定义TypeEvaluator
     /*val animator = ObjectAnimator.ofObject(view, "point", PointFEvaluator(), PointF(100.dp, 200.dp))
     animator.startDelay = 1000
     animator.duration = 2000
     animator.start()*/
 
+    // 自定义TypeEvaluator,实现文字动画
     val animator = ObjectAnimator.ofObject(view, "province", ProvinceEvaluator(), "澳门特别行政区")
     animator.startDelay = 1000
     animator.duration = 10000
     animator.start()
 
+    // 通过离屏缓冲(硬件加速)来优化动画,不必重绘
     view.animate()
       .translationY(200.dp)
       .withLayer()
