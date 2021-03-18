@@ -54,9 +54,10 @@ class MaterialEditText @JvmOverloads constructor(
         }
 
     init {
-        // 过滤属性
+        // attrs是来自xml里面每一个属性的键值对
+        // 过滤属性:即用R.styleable.MaterialEditText来对attrs进行过滤
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.MaterialEditText)
-        // 根据index获取属性值
+        // 根据index获取属性值,index是在R.styleable.MaterialEditText里面的
         useFloatingLabel = typeArray.getBoolean(R.styleable.MaterialEditText_useFloatingLabel, false)
         // 回收资源
         typeArray.recycle()
