@@ -14298,6 +14298,7 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
             if ((mViewFlags & ENABLED_MASK) == ENABLED && handleScrollBarDragging(event)) {
                 result = true;
             }
+            // OnTouchListener可以让你不用重写View也可以实现onTouchEvent的功能,甚至比onTouchEvent优先
             //noinspection SimplifiableIfStatement
             ListenerInfo li = mListenerInfo;
             if (li != null && li.mOnTouchListener != null
@@ -14306,6 +14307,7 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
                 result = true;
             }
 
+            // 如果OnTouchListener返回true,那么不再回调onTouchEvent
             if (!result && onTouchEvent(event)) {
                 result = true;
             }
@@ -15689,9 +15691,11 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
             switch (action) {
                 case MotionEvent.ACTION_UP:
                     mPrivateFlags3 &= ~PFLAG3_FINGER_DOWN;
+                    // 手指抬起的时候,Tooltip消失
                     if ((viewFlags & TOOLTIP) == TOOLTIP) {
                         handleTooltipUp();
                     }
+                    // 如果不可点击,取消所有监听,然后结束
                     if (!clickable) {
                         removeTapCallback();
                         removeLongPressCallback();
@@ -15700,15 +15704,18 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
                         mIgnoreNextUpEvent = false;
                         break;
                     }
+                    // 判断按下/预按下状态,否则不处理
                     boolean prepressed = (mPrivateFlags & PFLAG_PREPRESSED) != 0;
                     if ((mPrivateFlags & PFLAG_PRESSED) != 0 || prepressed) {
                         // take focus if we don't have it already and we should in
                         // touch mode.
                         boolean focusTaken = false;
+                        // 如果可以获取焦点,那么申请获取
                         if (isFocusable() && isFocusableInTouchMode() && !isFocused()) {
                             focusTaken = requestFocus();
                         }
 
+                        // 如果是预按下,还没到延时时间手指就抬起了,设置为按下状态
                         if (prepressed) {
                             // The button is being released before we actually
                             // showed it as pressed.  Make it show the pressed
@@ -15719,6 +15726,7 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
 
                         if (!mHasPerformedLongPress && !mIgnoreNextUpEvent) {
                             // This is a tap, so remove the longpress check
+                            // 清空长按相关状态
                             removeLongPressCallback();
 
                             // Only perform take click actions if we were in the pressed state
@@ -15729,6 +15737,7 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
                                 if (mPerformClick == null) {
                                     mPerformClick = new PerformClick();
                                 }
+                                // 触发点击监听
                                 if (!post(mPerformClick)) {
                                     performClickInternal();
                                 }
@@ -15739,6 +15748,7 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
                             mUnsetPressedState = new UnsetPressedState();
                         }
 
+                        // 按下状态复位,注意这是延迟触发的,让用户可以感知
                         if (prepressed) {
                             postDelayed(mUnsetPressedState,
                                     ViewConfiguration.getPressedStateDuration());
@@ -15776,7 +15786,7 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
 
                     // Walk up the hierarchy to determine if we're inside a scrolling container.
                     // 通过递归父View,判断是否在滑动控件里面
-                    // 写任何一个ViewGroup,如果不可滑动,一定要重写shouldDelayChildPressedState()返回false,否则按下状态会延迟
+                    // 写任何一个ViewGroup,如果不可滑动,一定要重写shouldDelayChildPressedState()返回false,否则按下状态会延迟让人感觉界面很卡
                     boolean isInScrollingContainer = isInScrollingContainer();
 
                     // For views inside a scrolling container, delay the pressed feedback for
@@ -15807,6 +15817,7 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
                     break;
 
                 case MotionEvent.ACTION_CANCEL:
+                    // 纯擦屁股操作
                     if (clickable) {
                         setPressed(false);
                     }
