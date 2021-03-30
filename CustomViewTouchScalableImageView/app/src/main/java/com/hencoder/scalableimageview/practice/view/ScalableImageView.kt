@@ -8,9 +8,9 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.OverScroller
-import androidx.core.animation.doOnEnd
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.ViewCompat
 import com.hencoder.scalableimageview.dp
@@ -38,7 +38,7 @@ private var OVER_SCROLL_OFFSET = 40.dp.toInt()
  * 支持双向滑动,支持OverScroll
  */
 class ScalableImageView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
     /**
@@ -73,6 +73,7 @@ class ScalableImageView @JvmOverloads constructor(
      * 手势识别
      */
     private val gestureDetector = GestureDetectorCompat(context, OnGestureListener())
+    private val scaleGestureDetector = ScaleGestureDetector(context, OnScaleGestureListener())
 
     /**
      * 当前的缩放比例
@@ -80,9 +81,9 @@ class ScalableImageView @JvmOverloads constructor(
     private var isBig = false
 
     /**
-     * 动画完成度
+     * 放缩比
      */
-    private var scaleFraction = 0f
+    private var currentScale = 0f
         set(value) {
             field = value
             invalidate()
@@ -91,9 +92,7 @@ class ScalableImageView @JvmOverloads constructor(
     /**
      * 缩放动画
      */
-    private val scaleAnimator by lazy {
-        ObjectAnimator.ofFloat(this, "scaleFraction", 0f, 1f)
-    }
+    private val scaleAnimator = ObjectAnimator.ofFloat(this, "currentScale", smallScale, bigScale)
 
     /**
      * 滚动
@@ -122,6 +121,10 @@ class ScalableImageView @JvmOverloads constructor(
             smallScale = height.toFloat() / bitmap.height.toFloat()
             bigScale = width.toFloat() / bitmap.width.toFloat() * EXTRA_SCALE_FACTOR
         }
+
+        // 初始化currentScale
+        currentScale = smallScale
+        scaleAnimator.setFloatValues(smallScale, bigScale)
     }
 
     /**
@@ -132,11 +135,10 @@ class ScalableImageView @JvmOverloads constructor(
         super.onDraw(canvas)
         // 处理偏移
         // 缩小的时候需要还原偏移，但是需要注意不能一下子改变，需要在动画过程中慢慢缩小，与缩放动画关联起来，即乘以动画完成度，缩小过程中影响力越来越小
+        val scaleFraction = (currentScale - smallScale) / (bigScale - smallScale)
         canvas.translate(offsetX * scaleFraction, offsetY * scaleFraction)
-        // 处理缩放，计算当前的缩放比
-        val scale = smallScale + (bigScale - smallScale) * scaleFraction
         // 缩放中心是View的中心点
-        canvas.scale(scale, scale, width / 2f, height / 2f)
+        canvas.scale(currentScale, currentScale, width / 2f, height / 2f)
         // 画原始Bitmap，加上原始偏移的目的是居中绘制
         canvas.drawBitmap(bitmap, originalOffsetX, originalOffsetY, paint)
     }
@@ -144,7 +146,12 @@ class ScalableImageView @JvmOverloads constructor(
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         // 将触摸事件代理给GestureDetector处理
-        return gestureDetector.onTouchEvent(event)
+        // 需要处理两个GestureDetector的配合,以捏撑的开始作为分歧点
+        scaleGestureDetector.onTouchEvent(event)
+        if (!scaleGestureDetector.isInProgress) {
+            gestureDetector.onTouchEvent(event)
+        }
+        return true
     }
 
     /**
@@ -210,11 +217,11 @@ class ScalableImageView @JvmOverloads constructor(
             val maxOffsetY = (bitmap.height * bigScale - height) / 2f
             val minOffsetY = -maxOffsetY
             scroller.fling(
-                    offsetX.toInt(), offsetY.toInt(),
-                    velocityX.toInt(), velocityY.toInt(),
-                    minOffsetX.toInt(), maxOffsetX.toInt(),
-                    minOffsetY.toInt(), maxOffsetY.toInt(),
-                    OVER_SCROLL_OFFSET, OVER_SCROLL_OFFSET
+                offsetX.toInt(), offsetY.toInt(),
+                velocityX.toInt(), velocityY.toInt(),
+                minOffsetX.toInt(), maxOffsetX.toInt(),
+                minOffsetY.toInt(), maxOffsetY.toInt(),
+                OVER_SCROLL_OFFSET, OVER_SCROLL_OFFSET
             )
             // postOnAnimation可以使得Runnable在下一帧到来的时候执行,而普通的post不会等下一帧到来
             postOnAnimation(flingRunnable)
@@ -258,6 +265,31 @@ class ScalableImageView @JvmOverloads constructor(
                 invalidate()
                 // 继续在下一帧到来的时候执行刷新
                 ViewCompat.postOnAnimation(this@ScalableImageView, this)
+            }
+        }
+    }
+
+    private inner class OnScaleGestureListener : ScaleGestureDetector.OnScaleGestureListener {
+        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+            // 获取捏撑中心,计算最初的偏移
+            offsetX = (detector.focusX - width / 2f) * (1 - bigScale / smallScale)
+            offsetY = (detector.focusY - height / 2f) * (1 - bigScale / smallScale)
+            return true
+        }
+
+        override fun onScaleEnd(detector: ScaleGestureDetector?) {
+
+        }
+
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            val tempCurrentScale = currentScale * detector.scaleFactor
+            return if (tempCurrentScale < smallScale || tempCurrentScale > bigScale) {
+                // 这次缩放不算数,下次将丢弃本次的缩放
+                false
+            } else {
+                currentScale = tempCurrentScale
+                // 这次缩放算数,下次将以本次的缩放倍数作为基准
+                true
             }
         }
     }

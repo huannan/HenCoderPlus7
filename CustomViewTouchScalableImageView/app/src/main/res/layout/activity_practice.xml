@@ -6,6 +6,12 @@
 
     <com.hencoder.scalableimageview.practice.view.ScalableImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <com.hencoder.scalableimageview.view.ScalableImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </LinearLayout>
