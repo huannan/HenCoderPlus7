@@ -122,6 +122,7 @@ public class Main {
         ExecutorService executor = Executors.newCachedThreadPool();
         Future<String> future = executor.submit(callable);
         while (true) {
+            // isDone可以查询是否执行完成
             if (future.isDone()) {
                 try {
                     String result = future.get();
