@@ -81,8 +81,29 @@ public class Main {
 
         ExecutorService myExecutor = new ThreadPoolExecutor(5, 100,
                 5, TimeUnit.MINUTES, new SynchronousQueue<Runnable>());
-
         myExecutor.execute(runnable);
+
+        /*
+        // 将工作线程设置为SHUTWDOWN状态，能够确保队列里面的任务能够执行完
+        myExecutor.shutdown();
+        // 将工作线程设置为STOP状态，然后调用Thread的interrupt()方法尽最大努力去终止已经运行的任务
+        myExecutor.shutdownNow();
+
+        举个工人吃包子的例子：
+        1. 一个厂的工人（Workers）正在吃包子（可以理解为任务），假如接到shutdown的命令，那么这个厂的工人们则会把手头上的包子给吃完，没有拿到手里的笼子里面的包子则不能吃！
+        2. 而如果接到shutdownNow的命令以后呢，这些工人们立刻停止吃包子，会把手头上没吃完的包子放下，更别提笼子里的包子了。
+        */
+
+        /*
+        // 创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。但是需要注意会有OOM风险，一般项目会自定义线程池，然后配置给RxJava等用于全局
+        newCachedThreadPool()
+        // 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行
+        newSingleThreadExecutor()
+        // 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待，就是没有那么灵活：不用的时候不会回收用的时候不会增加。一般用于集中处理一次性的爆发性的需求，先用完然后直接shutdown()
+        newFixedThreadPool()
+        // 创建一个定长线程池，支持定时及周期性任务执行
+        newScheduledThreadPool()
+        */
     }
 
     static void callable() {
