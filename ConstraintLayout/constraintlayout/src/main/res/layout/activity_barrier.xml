@@ -13,7 +13,6 @@
         app:barrierDirection="end"
         app:constraint_referenced_ids="view1,view2" />
 
-
     <TextView
         android:id="@+id/view1"
         android:layout_width="wrap_content"
@@ -48,6 +47,5 @@
         android:src="@mipmap/ic_launcher"
         app:layout_constraintStart_toStartOf="@+id/barrier"
         app:layout_constraintTop_toTopOf="@+id/view2" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

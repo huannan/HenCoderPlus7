@@ -14,10 +14,10 @@
         android:layout_marginTop="16dp"
         android:background="@color/colorAccent"
         android:orientation="horizontal"
-        app:flow_wrapMode="chain"
-        app:flow_verticalGap="16dp"
-        app:flow_horizontalGap="16dp"
         app:constraint_referenced_ids="view1,view2,view3,view4,view5,view6"
+        app:flow_horizontalGap="16dp"
+        app:flow_verticalGap="16dp"
+        app:flow_wrapMode="chain"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

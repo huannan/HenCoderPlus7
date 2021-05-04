@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.8" />
 
+    <!--文本很长的时候没问题,但是文本很短的时候是居中的,这时候需要用bias来设置偏移-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -26,7 +27,7 @@
         android:textColor="@android:color/white"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/avatar"
         app:layout_constraintTop_toTopOf="@+id/avatar" />
 

@@ -18,14 +18,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <ImageView
-        app:layout_goneMarginStart="16dp"
         android:id="@+id/avatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@mipmap/ic_launcher_round"
         app:layout_constraintStart_toEndOf="@id/textview"
-        app:layout_constraintTop_toTopOf="@id/textview" />
+        app:layout_constraintTop_toTopOf="@id/textview"
+        app:layout_goneMarginStart="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

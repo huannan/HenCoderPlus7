@@ -46,7 +46,9 @@ class ConstraintSetX : AppCompatActivity() {
                 R.layout.activity_constraint_end
             )
         }
+        // 应用约束之前,可以添加过渡动画
         TransitionManager.beginDelayedTransition(constraintLayout)
+        // 从activity_constraint_end吸出来的约束应用到当前布局
         constraintSet.applyTo(constraintLayout)
     }
 }
