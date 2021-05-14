@@ -7,6 +7,9 @@ import com.hencoder.arch.R
 import com.hencoder.arch.mvp.Presenter
 import kotlinx.android.synthetic.main.activity_main.*
 
+/**
+ * View
+ */
 class MvvmActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)

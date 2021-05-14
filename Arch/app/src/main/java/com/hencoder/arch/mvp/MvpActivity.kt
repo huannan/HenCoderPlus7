@@ -6,6 +6,9 @@ import com.hencoder.arch.DataCenter
 import com.hencoder.arch.R
 import kotlinx.android.synthetic.main.activity_main.*
 
+/**
+ * View
+ */
 class MvpActivity : AppCompatActivity(), Presenter.IView {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)

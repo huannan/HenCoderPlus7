@@ -5,6 +5,9 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_main_mvc.view.*
 
+/**
+ * View
+ */
 class MvcView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
   fun showData(data: List<String>) {
     data1View.setText(data[0])
