@@ -1,5 +1,7 @@
 package com.hencoder.generics.fruit;
 
+import android.view.ScaleGestureDetector;
+
 import java.util.List;
 
 public class Apple implements Fruit {
@@ -8,7 +10,11 @@ public class Apple implements Fruit {
     return 1;
   }
 
+  /**
+   * 下界
+   */
   public void addMeToList(List<? super Apple> list) {
     list.add(this);
+    ScaleGestureDetector
   }
 }

@@ -1,5 +1,8 @@
 package com.hencoder.generics;
 
+/**
+ * 继承
+ */
 class RealShop implements Shop {
   @Override
   public Object buy() {

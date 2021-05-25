@@ -2,6 +2,9 @@ package com.hencoder.generics;
 
 import java.util.List;
 
+/**
+ * 泛型接口的创建
+ */
 interface Shop<T> { // Type Parameter; Type Argument
   T buy();
 

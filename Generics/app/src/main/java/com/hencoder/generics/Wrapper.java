@@ -1,5 +1,8 @@
 package com.hencoder.generics;
 
+/**
+ * 泛型类型的创建
+ */
 class Wrapper<T> {
   private T instance;
 
