@@ -3,6 +3,7 @@ package com.hencoder.blockcanary;
 import android.Manifest;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.Trace;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // TraceView的使用
+        // Debug.startMethodTracing();
+
+        // SysTrace的使用
+        Trace.beginSection("onCreate");
+
         final RxPermissions rxPermissions = new RxPermissions(this);
         compositeDisposable.add(rxPermissions
                 .request(Manifest.permission.READ_PHONE_STATE)
@@ -33,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }));
+
+        // Debug.stopMethodTracing();
+
+        Trace.endSection();
     }
 
     @Override
@@ -58,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         SystemClock.sleep(100);
     }
 
+    /**
+     * 原理AOP
+     */
     @DebugLog
     public void c() {
         SystemClock.sleep(500);
