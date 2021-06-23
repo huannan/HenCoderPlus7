@@ -1,29 +1,53 @@
 package com.hencoder.blockcanary;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.tbruyelle.rxpermissions3.RxPermissions;
+
 import hugo.weaving.DebugLog;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.functions.Consumer;
 import timber.log.Timber;
 
-@DebugLog
 public class MainActivity extends AppCompatActivity {
+
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        final RxPermissions rxPermissions = new RxPermissions(this);
+        compositeDisposable.add(rxPermissions
+                .request(Manifest.permission.READ_PHONE_STATE)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean granted) throws Throwable {
+                        if (granted) {
+                            setContentView(R.layout.activity_main);
+                        }
+                    }
+                }));
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.dispose();
+        super.onDestroy();
     }
 
     public void click(View view) {
+        // BlockCanary由于延时不一定准确，但是能大致定位卡顿问题
         a();
         b();
         c();
 
-        Timber.d("aaa");
+        Timber.d("我是测试Log");
     }
 
     public void a() {
@@ -34,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         SystemClock.sleep(100);
     }
 
+    @DebugLog
     public void c() {
         SystemClock.sleep(500);
     }

@@ -37,8 +37,16 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    /*
     debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
     releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
+    */
+
+    debugImplementation 'com.github.bzcoder:blockcanarycompat-android:0.0.5'
+    releaseImplementation 'com.github.bzcoder:blockcanarycompat-android-no-op:0.0.5'
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    implementation "io.reactivex.rxjava3:rxjava:3.0.13"
+    implementation 'com.github.tbruyelle:rxpermissions:0.12'
 }
