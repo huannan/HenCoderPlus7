@@ -15,6 +15,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import timber.log.Timber;
 
+/**
+ * https://ui.perfetto.dev/#!/
+ */
 public class MainActivity extends AppCompatActivity {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
