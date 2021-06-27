@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+1. Motion中可以单独设置某个控件的运动轨迹,时间模型
+2. Transition中可以设置整个过渡动画的时间模型
+3. Transform可以设置变换,动画从开始到结束会执行变换
+4. CustomAttribute可以设置自定义属性
+5. PropertySet可以设置特殊属性的值,比如可见性,透明度
+-->
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@id/start"
+        app:duration="3000"
+        app:motionInterpolator="easeOut">
+
+        <OnClick
+            app:clickAction="toggle"
+            app:targetId="@id/view" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/view">
+            <!--设置运动轨迹-->
+            <!--设置单独时间模型 app:transitionEasing="accelerate"-->
+            <Motion app:pathMotionArc="startVertical" />
+            <Layout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <CustomAttribute
+                app:attributeName="saturation"
+                app:customFloatValue="1" />
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@+id/view">
+            <Layout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <Transform
+                android:rotation="360"
+                android:scaleX="1.5"
+                android:scaleY="1.5" />
+            <CustomAttribute
+                app:attributeName="saturation"
+                app:customFloatValue="0" />
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+    </ConstraintSet>
+</MotionScene>

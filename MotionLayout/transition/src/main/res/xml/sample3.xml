@@ -5,58 +5,69 @@
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@id/start"
-        app:duration="3000">
+        app:duration="3000"
+        app:motionInterpolator="easeOut">
 
-        <OnSwipe app:touchAnchorId="@id/view"
+        <OnSwipe
             app:dragDirection="dragDown"
-            />
-
+            app:touchAnchorId="@id/view" />
 
         <KeyFrameSet>
-
-            <KeyTimeCycle
+            <!--循环关键帧 x是动画完成度 y是动画旋转角度-->
+            <!--0到50的动画完成度时候,刚好走过一个来回的动画-->
+            <KeyCycle
                 android:rotation="0"
                 app:framePosition="0"
                 app:motionTarget="@id/view"
                 app:wavePeriod="0"
                 app:waveShape="sin" />
-
-            <KeyTimeCycle
+            <KeyCycle
                 android:rotation="45"
                 app:framePosition="50"
                 app:motionTarget="@id/view"
                 app:wavePeriod="1"
                 app:waveShape="sin" />
-
-            <KeyTimeCycle
+            <KeyCycle
                 android:rotation="0"
                 app:framePosition="100"
                 app:motionTarget="@id/view"
                 app:wavePeriod="0"
                 app:waveShape="sin" />
 
-
+            <!--时间关键帧,根据时间的流逝来循环 x是动画完成度 y是循环周期-->
+<!--            <KeyTimeCycle-->
+<!--                android:rotation="0"-->
+<!--                app:framePosition="0"-->
+<!--                app:motionTarget="@id/view"-->
+<!--                app:wavePeriod="0"-->
+<!--                app:waveShape="sin" />-->
+<!--            <KeyTimeCycle-->
+<!--                android:rotation="45"-->
+<!--                app:framePosition="50"-->
+<!--                app:motionTarget="@id/view"-->
+<!--                app:wavePeriod="1"-->
+<!--                app:waveShape="sin" />-->
+<!--            <KeyTimeCycle-->
+<!--                android:rotation="0"-->
+<!--                app:framePosition="100"-->
+<!--                app:motionTarget="@id/view"-->
+<!--                app:wavePeriod="0"-->
+<!--                app:waveShape="sin" />-->
         </KeyFrameSet>
-
-        <!--        <OnSwipe-->
-        <!--            app:dragDirection="dragDown"-->
-        <!--            app:touchAnchorSide="bottom"-->
-        <!--            app:touchAnchorId="@id/view" />-->
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
         <Constraint android:id="@+id/view">
-
+            <!--设置运动轨迹-->
+            <!--设置单独时间模型 app:transitionEasing="accelerate"-->
             <Motion app:pathMotionArc="startVertical" />
             <Layout
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </Constraint>
     </ConstraintSet>
-
 
     <ConstraintSet android:id="@+id/end">
         <Constraint android:id="@+id/view">
@@ -64,8 +75,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent" />
         </Constraint>
     </ConstraintSet>
 </MotionScene>

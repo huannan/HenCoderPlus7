@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layoutDescription="@xml/sample"
+    app:layoutDescription="@xml/sample1"
     app:showPaths="true"
-    tools:context=".SampleActivity">
+    tools:context=".Sample1Activity">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/view"
-        android:src="@drawable/avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
+        android:src="@drawable/avatar"
         tools:ignore="MissingConstraints" />
 
 

@@ -11,10 +11,9 @@
             app:targetId="@+id/fab_favourite" />
 
         <OnSwipe
-            app:touchRegionId="@+id/image_film_cover"
             app:dragDirection="dragDown"
-            app:onTouchUp="stop"
-            />
+            app:onTouchUp="autoComplete"
+            app:touchRegionId="@+id/image_film_cover" />¬
 
     </Transition>
 

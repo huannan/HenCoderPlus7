@@ -17,7 +17,9 @@
         <activity android:name=".Go" />
         <activity android:name=".ConstraintSetExample" />
         <activity android:name=".MotionActivity"/>
-        <activity android:name=".SampleActivity" />
+        <activity android:name=".Sample1Activity" />
+        <activity android:name=".Sample2Activity" />
+        <activity android:name=".Sample3Activity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

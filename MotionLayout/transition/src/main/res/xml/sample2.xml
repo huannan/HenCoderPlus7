@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@id/start"
+        app:duration="3000"
+        app:motionInterpolator="easeOut">
+
+        <OnClick
+            app:clickAction="toggle"
+            app:targetId="@id/view" />
+
+        <KeyFrameSet>
+            <!--属性关键帧-->
+            <!--动画执行到一半的时候完成所有缩放-->
+            <KeyAttribute
+                android:rotation="360"
+                android:scaleX="2"
+                android:scaleY="2"
+                app:framePosition="50"
+                app:motionTarget="@id/view" />
+            <!--位置关键帧-->
+            <!--keyPositionType
+            1. parentRelative父容器是原点
+            2. deltaRelative自己的中心是原点
+            3. pathRelative x轴是起点到终点的连线,y轴垂直于x轴(顺时针)
+            -->
+            <KeyPosition
+                app:framePosition="50"
+                app:keyPositionType="parentRelative"
+                app:motionTarget="@id/view"
+                app:pathMotionArc="flip"
+                app:percentX="0.5"
+                app:percentY="0.5" />
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/view">
+            <!--设置运动轨迹-->
+            <!--设置单独时间模型 app:transitionEasing="accelerate"-->
+            <Motion app:pathMotionArc="startVertical" />
+            <Layout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@+id/view">
+            <Layout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+            <Transform
+                android:rotation="360"
+                android:scaleX="2"
+                android:scaleY="2" />
+        </Constraint>
+    </ConstraintSet>
+</MotionScene>
